@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>سينما قطاع | Block Cinema - مدينة الصدر</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap');
+
+        body {
+            font-family: 'Cairo', 'Tajawal', sans-serif;
+            background: #1a0b0b;
+            color: #f0e6e6;
+            line-height: 1.7;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* خلفية سينمائية عنابية خالصة */
+        .cinematic-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            background: radial-gradient(circle at 20% 30%, #3d1a1a, #0a0404);
+        }
+
+        /* أيقونات فشار وكاميرات متحركة */
+        .floating-icon {
+            position: fixed;
+            font-size: 3rem;
+            opacity: 0.1;
+            z-index: -1;
+            pointer-events: none;
+            animation: floatAround 18s infinite ease-in-out;
+        }
+        .icon-1 { bottom: 5%; left: 3%; animation-duration: 22s; }
+        .icon-2 { top: 15%; right: 2%; animation-duration: 25s; animation-delay: 3s; transform: scaleX(-1); }
+        .icon-3 { top: 40%; left: 8%; animation-duration: 19s; animation-delay: 1s; }
+        .icon-4 { bottom: 20%; right: 7%; animation-duration: 28s; animation-delay: 5s; }
+        .icon-5 { top: 70%; left: 15%; animation-duration: 21s; animation-delay: 2s; }
+        .icon-6 { bottom: 40%; right: 12%; animation-duration: 24s; animation-delay: 4s; }
+
+        @keyframes floatAround {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-25px) rotate(8deg); }
+        }
+
+        /* تأثير حبيبات الفيلم */
+        .film-grain {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJmIj48ZmVUdXJidWxlbmNlIHR5cGU9ImZyYWN0YWxOb2lzZSIgYmFzZUZyZXF1ZW5jeT0iLjgiIG51bU9jdGF2ZXM9IjMiLz48L2ZpbHRlcj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWx0ZXI9InVybCgjZikiIG9wYWNpdHk9IjAuMTUiLz48L3N2Zz4=');
+            background-repeat: repeat;
+            pointer-events: none;
+            z-index: -1;
+            opacity: 0.3;
+        }
+
+        /* شريط سينمائي سفلي عنابي */
+        .film-strip {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            background: repeating-linear-gradient(90deg, #9b2d2d 0px, #9b2d2d 20px, #2a0f0f 20px, #2a0f0f 40px);
+            z-index: 100;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 5;
+        }
+
+        /* رأس الصفحة متناسق مع اللوغو */
+        .header {
+            text-align: center;
+            padding: 40px 20px;
+            background: rgba(0, 0, 0, 0.55);
+            backdrop-filter: blur(12px);
+            border-radius: 50px;
+            margin-bottom: 40px;
+            border-bottom: 2px solid #b33a3a;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        }
+
+        .logo {
+            max-width: 260px;
+            width: 100%;
+            height: auto;
+            border-radius: 20px;
+            box-shadow: 0 0 20px rgba(180, 50, 50, 0.4);
+            transition: transform 0.3s;
+        }
+        .logo:hover {
+            transform: scale(1.02);
+        }
+
+        /* البطاقات */
+        .card {
+            background: rgba(0, 0, 0, 0.55);
+            backdrop-filter: blur(8px);
+            border-radius: 30px;
+            padding: 30px;
+            margin-bottom: 35px;
+            border-right: 4px solid #b33a3a;
+            transition: 0.3s;
+        }
+        .card:hover {
+            background: rgba(0, 0, 0, 0.7);
+            transform: translateY(-3px);
+        }
+        .card h2 {
+            color: #ffb3b3;
+            margin-bottom: 18px;
+            border-right: 3px solid #b33a3a;
+            padding-right: 15px;
+        }
+
+        .gallery-title {
+            text-align: center;
+            font-size: 2rem;
+            margin: 45px 0 30px;
+            color: #ffb3b3;
+        }
+        .gallery-title::before {
+            content: "📸";
+            margin-left: 12px;
+        }
+        .gallery-title::after {
+            content: "🎞️";
+            margin-right: 12px;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 45px;
+        }
+        .gallery-item {
+            background: rgba(0, 0, 0, 0.6);
+            border-radius: 24px;
+            overflow: hidden;
+            transition: 0.3s;
+            border: 1px solid #8b2a2a;
+        }
+        .gallery-item:hover {
+            transform: scale(1.02);
+            border-color: #b33a3a;
+            box-shadow: 0 10px 20px rgba(150, 40, 40, 0.3);
+        }
+        .gallery-img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.4s;
+        }
+        .gallery-item:hover .gallery-img {
+            transform: scale(1.03);
+        }
+        /* تم إزالة الـ .gallery-caption بالكامل */
+
+        /* أزرار التواصل */
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            flex-wrap: wrap;
+            margin: 20px 0 10px;
+        }
+        .social-btn {
+            background: rgba(140, 40, 40, 0.3);
+            border: 1px solid #b33a3a;
+            padding: 10px 30px;
+            border-radius: 40px;
+            text-decoration: none;
+            color: #ffe0e0;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+        .social-btn:hover {
+            background: #b33a3a;
+            color: #fff;
+            transform: scale(1.02);
+            box-shadow: 0 0 12px #b33a3a;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 25px;
+            border-top: 1px solid #481c1c;
+            color: #b38484;
+            margin-top: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .logo { max-width: 180px; }
+            .card h2 { font-size: 1.5rem; }
+            .gallery-grid { grid-template-columns: 1fr; }
+            .floating-icon { font-size: 2rem; opacity: 0.08; }
+        }
+
+        /* تأثير ظهور تدريجي */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .header, .card, .gallery-title, .gallery-grid {
+            animation: fadeUp 0.6s ease forwards;
+        }
+    </style>
+</head>
+<body>
+
+<div class="cinematic-bg"></div>
+<div class="film-grain"></div>
+
+<div class="floating-icon icon-1">🍿</div>
+<div class="floating-icon icon-2">🎥</div>
+<div class="floating-icon icon-3">📽️</div>
+<div class="floating-icon icon-4">🎞️</div>
+<div class="floating-icon icon-5">🍿</div>
+<div class="floating-icon icon-6">📹</div>
+
+<div class="container">
+    <!-- رأس الصفحة: شعار النادي بالرابط الجديد -->
+    <div class="header">
+        <img src="https://i.ibb.co/WNJDpyYV/logo-jpg.jpg" alt="شعار سينما قطاع" class="logo">
+    </div>
+
+    <!-- معلومات العرض -->
+    <div class="card">
+        <h2>📍 معلومات العرض</h2>
+        <p><strong>الموعد:</strong> كل يوم <strong>جمعة</strong> الساعة <strong>7:00 مساءً</strong></p>
+        <p><strong>الدخول:</strong> عام للجميع</p>
+    </div>
+
+    <!-- النبذة الكاملة -->
+    <div class="card">
+        <h2>🎬 نبذة عن النادي: قطاع</h2>
+        <p>نحن مجموعة من أبناء هذه المدينة، نعلن اليوم تأسيس ناديًا بسيطًا للعرض، أسميناه <strong>"قطاع"</strong>. اسم مأخوذ من الطبيعة التكوينية لهذه المدينة.</p>
+        <p>شرعنا بالعمل على هذا المشروع لأننا نعتقد أنّ السينما لا تصل للمدن المهمشة، ليس هناك قاعات أو دور للعرض في مدن أو مناطق الأطراف، والسينما تقتصر على المولات في المنطقة التجارية المركزية. ولأننا نؤمن أن السينما لا تقتصر على الترفيه فقط، إنما هي ضرورة ملحّة تُساعد المجتمعات على التقدم، وتساعد الفرد على فهم نفسه، رؤية حكاياته وحكايات الآخرين، وأنها تساعدنا على فتح أبواب ونوافذ للنقاش الذي نفتقده ونفتقر له.</p>
+        <p>هنا في <strong>قطاع</strong>، نعرض أفلامًا طويلة وقصيرة، محلية وعالمية، لأننا نؤمن أن كل القصص يجب أن تروى. نحن هنا، لنشاهد معًا، نفكر معًا، نضحك ونبكي معًا، تحت الشاشة، فالشاشة توحدنا!</p>
+    </div>
+
+    <!-- معرض الصور - بدون أي نصوص تحت الصور -->
+    <h2 class="gallery-title"> من أمسياتنا السينمائية</h2>
+    <div class="gallery-grid">
+        <!-- Event 1 -->
+        <div class="gallery-item">
+            <img src="https://i.ibb.co/N244rzbn/event1-jpg.jpg" alt="فعالية 1" class="gallery-img">
+        </div>
+        <!-- Event 2 -->
+        <div class="gallery-item">
+            <img src="https://i.ibb.co/p6hHcPtP/event2-jpg.jpg" alt="فعالية 2" class="gallery-img">
+        </div>
+      
+        <!-- Event 5 (event4 الجديد) -->
+        <div class="gallery-item">
+            <img src="https://i.ibb.co/v41ng8FN/event4-jpg.jpg" alt="فعالية 5" class="gallery-img">
+        </div>
+        <!-- Event 6 (event5) -->
+        <div class="gallery-item">
+            <img src="https://i.ibb.co/sdKSZXm2/event5-jpg.jpg" alt="فعالية 6" class="gallery-img">
+        </div>
+        <!-- Event 7 (event6) -->
+        <div class="gallery-item">
+            <img src="https://i.ibb.co/cSkDbbYC/event6-jpg.jpg" alt="فعالية 7" class="gallery-img">
+        </div>
+        <!-- Event 8 (event7) -->
+        <div class="gallery-item">
+            <img src="https://i.ibb.co/MyPK6YdD/event7-jpg.jpg" alt="فعالية 8" class="gallery-img">
+        </div>
+    </div>
+
+    <!-- روابط التواصل -->
+    <div class="card">
+        <h2>📱 تابعونا وانضموا إلينا</h2>
+        <div class="social-links">
+            <a href="https://www.instagram.com/block.cinema" target="_blank" class="social-btn">📷 إنستغرام</a>
+            <a href="https://www.facebook.com/share/1CCRPBoTrY/" target="_blank" class="social-btn">📘 فيسبوك</a>
+        </div>
+        <p style="text-align: center; margin-top: 15px;">تابعونا لمعرفة آخر العروض والفعاليات</p>
+    </div>
+
+    <div class="footer">
+        © 2026 نادي "سينما قطاع" – مدينة الصدر، بغداد. معًا نعيد السينما إلى أحيائنا.
+    </div>
+</div>
+
+<div class="film-strip"></div>
+
+</body>
+</html>
